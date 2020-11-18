@@ -1,5 +1,2 @@
-insert into archive (NAME, SIZE, LAST_NAME, FIRST_NAME, DOWNLOADS, DATE, PATH)
-values('Ebaluation_Notebook.ipynb', '34','Pohl', 'Constantin', '20', '12.10.2020 15:05', '04p_Java_Spark.pdf');
-
-insert into archive (NAME, SIZE, LAST_NAME, FIRST_NAME, DOWNLOADS, DATE, PATH)
-values('03p_Java_Stream_Slides.pdf', '34','Pohl', 'Constantin', '90', '12.10.2020 15:05', '03p_Java_Stream_Slides.pdf');
+insert into orders (Order_ID, Date, Quantity, Sales, Mode, Profit, Unit_Price, Customer_Name, Customer_Segment, Product_Category)
+values ( '7240','07/15/2020','100','200.99','Delivery Truck','-200.99','80.89','Abdennacer El-Maalem','Corporate','Electric');

@@ -1,8 +1,8 @@
 package com.project.demo.service;
 
 import com.project.demo.helper.CSVHelper;
-import com.project.demo.model.Archive;
-import com.project.demo.repository.ArchivRepo;
+import com.project.demo.model.Orders;
+import com.project.demo.repository.OrdersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,29 +16,40 @@ import java.util.stream.Collectors;
 public class CSVService {
 
     @Autowired
-    ArchivRepo repository;
+    OrdersRepo repository;
 
     public void save(MultipartFile file) {
         try {
-            List<Archive> archives = CSVHelper.csvToArchives(file.getInputStream());
-            repository.saveAll(archives);
+            List<Orders> orders = CSVHelper.csvToOrders(file.getInputStream());
+            repository.saveAll(orders);
         } catch (IOException e) {
             throw new RuntimeException("fail to store csv data: " + e.getMessage());
         }
     }
 
-    public List<Archive> getAllArchives() {
+    public List<Orders> getAllOrders() {
         return repository.findAll();
     }
 
-    public List<Archive> getArchivesByFirstName(String firstName){
+
+    public List<Orders> getOrdersByCustomerName(String customerName){
 
         return repository.findAll().stream()
-                .filter(s->s.getFirstName().contentEquals(firstName))
+                .filter(s->s.getCustomerName().contentEquals(customerName))
                 .collect(Collectors.toList());
     }
 
-    public List<Archive> getArchivesByName(String name) {
+    public List<Orders> getOrdersByCustomerNameAndDate(String name,String date) {
+
+
+        return repository.findAll().stream()
+                .filter(s->s.getCustomerName().contentEquals(name))
+                .filter(s->s.getDate().contentEquals(date))
+                .collect(Collectors.toList());
+    }
+
+    /*
+    public List<Order> getOrdersByName(String name) {
 
         return repository.findAll().stream()
                 .filter(s->s.getName().contentEquals(name))
@@ -46,31 +57,30 @@ public class CSVService {
 
     }
 
-    public Archive getLastArchiveByFirstName(String firstName) {
+    public Order getLastOrderByFirstName(String firstName) {
 
         return repository.findAll().stream()
                 .filter(s->s.getFirstName().contentEquals(firstName))
                 .reduce((first,next) -> next).get();
-
     }
 
 
-    public List<Archive> sortedByNameAndDate() {
+    public List<Order> sortedByNameAndDate() {
 
         return repository.findAll().stream()
-                .sorted(Comparator.comparing(Archive::getName).thenComparing(Archive::getDate))
+                .sorted(Comparator.comparing(Order::getName).thenComparing(Order::getDate))
                 .collect(Collectors.toList());
-
     }
 
-    public List<Archive> getArchivesByNameWhereDownloadsMoreThan50WithSortedByDate(String name) {
+    public List<Order> getOrdersByNameWhereDownloadsMoreThan50WithSortedByDate(String name) {
 
         return repository.findAll().stream()
                 .filter(s->s.getName().contentEquals(name))
                 .filter(s-> Integer.parseInt(s.getDownloads()) >= 50)
-                .sorted(Comparator.comparing(Archive::getDate))
+                .sorted(Comparator.comparing(Order::getDate))
                 .collect(Collectors.toList());
 
     }
+    */
 
 }
